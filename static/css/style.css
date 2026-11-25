@@ -625,3 +625,13 @@ main.screen-main { height: 100vh; display: flex; align-items: stretch; padding: 
 /* chiave per il sito (Impostazioni) */
 .key-row { display: flex; gap: .5rem; align-items: center; }
 .key-row input { flex: 1; min-width: 0; }
+
+/* messaggi di conferma in basso a sinistra */
+.toasts { position: fixed; left: 1.25rem; bottom: 1.25rem; z-index: 1000; display: flex; flex-direction: column; gap: .5rem;
+  max-width: min(480px, calc(100vw - 2.5rem)); }
+.toast { margin: 0; cursor: pointer; box-shadow: 0 6px 20px rgba(0, 0, 0, .15); transition: opacity .4s, transform .4s; }
+.toast-out { opacity: 0; transform: translateY(8px); }
+
+/* indirizzo da condividere (gare) */
+.share-link { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; margin: .75rem 0; }
+.share-link a { font-size: 1.25rem; font-weight: 600; word-break: break-all; }
