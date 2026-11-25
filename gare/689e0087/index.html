@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Iscrizione · contest · Tribe Wall</title>
+  
+  
+  <link rel="icon" href="../../favicon.ico" sizes="16x16 24x24 32x32 48x48 64x64 256x256">
+  
+  <link rel="icon" type="image/png" sizes="32x32" href="../../icona-32.png">
+  
+  <link rel="icon" type="image/png" sizes="48x48" href="../../icona-48.png">
+  
+  <link rel="icon" type="image/png" sizes="64x64" href="../../icona-64.png">
+  
+  <link rel="icon" type="image/png" sizes="96x96" href="../../icona-96.png">
+  
+  <link rel="icon" type="image/png" sizes="128x128" href="../../icona-128.png">
+  
+  <link rel="icon" type="image/png" sizes="192x192" href="../../icona-192.png">
+  
+  <link rel="icon" type="image/png" sizes="256x256" href="../../icona-256.png">
+  
+  <link rel="apple-touch-icon" href="../../icona-180.png">
+  
+  <link rel="stylesheet" href="../../static/css/style.css">
+</head>
+<body class="public">
+  
+  
+  
+
+  <main class="narrow">
+    
+      
+    
+    
+<header class="public-head">
+  <img src="../../personalizza/logo.png" alt="Tribe Wall">
+  <h1>contest</h1>
+  <p><strong>11/12/2026 · ore 08:00</strong></p>
+  <p>Quota di iscrizione: <strong>€ 40,00</strong>, da pagare in reception.</p>
+  <p class="muted">Iscrizioni aperte fino al 03/12/2026.</p>
+</header>
+<img class="poster-public" src="locandina.jpg" alt="Locandina di contest">
+
+
+<p class="flash flash-error" id="tw-closed" hidden>Le iscrizioni a questa gara sono chiuse. Per informazioni chiedi in reception.</p>
+<form class="card member-form" id="tw-signup" data-endpoint="https://formsubmit.co/ajax/salvatore.de.lucia2312@gmail.com" data-subject="Iscrizione online gara contest"
+      data-until="2026-12-03">
+  <input type="hidden" name="gara" value="689e0087">
+  <div class="form-grid">
+    <label>Nome *<input name="first_name" required autocomplete="given-name"></label>
+    <label>Cognome *<input name="last_name" required autocomplete="family-name"></label>
+    <label>Data di nascita *<input type="date" name="birth_date" required></label>
+    <label>Codice fiscale<input name="tax_code" maxlength="16" autocapitalize="characters" placeholder="facoltativo"></label>
+    <label>Email *<input type="email" name="email" required autocomplete="email"></label>
+    <label>Telefono<input type="tel" name="phone" autocomplete="tel"></label>
+    
+    <label data-extra-label="Taglia maglia">Taglia maglia *
+  
+  
+  <select name="x_q1" required><option value="">—</option><option >S</option><option >M</option><option >L</option><option >XL</option><option >XXL</option></select>
+  
+</label>
+    
+    <label data-extra-label="Forte?">Forte? *
+  
+  
+  <select name="x_q2" required><option value="">—</option><option >Sì</option><option >No</option></select>
+  
+</label>
+    
+    <label class=span-2 data-extra-label="Residenza">Residenza
+  
+  
+  <input name="x_q3" value="" maxlength="200" >
+  
+</label>
+    
+  </div>
+  <p class="hint">Se sei già iscritto a Tribe Wall usa gli stessi dati che ci hai dato all'iscrizione: ti riconosciamo da soli.</p>
+  <label class="check">
+    <input type="checkbox" name="privacy_consent" value="1" required>
+    <span>Ho letto l'<strong>informativa privacy</strong> e acconsento al trattamento dei miei dati personali ai sensi del Reg. UE 2016/679 (GDPR). *</span>
+  </label>
+  <p class="legal-links"><a href="../../static/documenti/privacy.pdf" target="_blank" rel="noopener">📄 Leggi l'informativa privacy</a></p>
+  <div class="hp" aria-hidden="true"><label>Sito web<input name="_honey" tabindex="-1" autocomplete="off"></label></div>
+  <p class="flash flash-error" id="tw-error" hidden></p>
+  <div class="form-actions"><button class="btn btn-primary btn-block">Iscriviti alla gara</button></div>
+  <p class="hint">* campi obbligatori. I dati vengono inviati a Tribe Wall tramite il servizio FormSubmit (formsubmit.co)
+    e usati solo per l'iscrizione alla gara, come descritto nell'informativa privacy.</p>
+</form>
+
+  </main>
+  
+  <script src="../../static/js/documenti.js"></script>
+  
+<script>
+(() => {
+  const form = document.getElementById("tw-signup"), err = document.getElementById("tw-error");
+  const today = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+  if (form.dataset.until && today > form.dataset.until) {  // iscrizioni chiuse
+    form.hidden = true;
+    document.getElementById("tw-closed").hidden = false;
+    return;
+  }
+  const button = form.querySelector(".form-actions button");
+  const get = k => (form.elements[k] && form.elements[k].value || "").trim();
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    err.hidden = true;
+    if (!form.reportValidity()) return;
+    if (get("_honey")) { location.href = "grazie.html"; return; }  // campo trappola anti-spam
+    const pairs = [...new FormData(form)].filter(([k]) => !k.startsWith("_"));
+    const bytes = new TextEncoder().encode(JSON.stringify(pairs));
+    let bin = "";
+    bytes.forEach(b => bin += String.fromCharCode(b));
+    const body = {
+      _subject: `${form.dataset.subject} - ${get("first_name")} ${get("last_name")}`, _template: "table", _captcha: "false",
+      "Gara": document.querySelector("h1").textContent, "Nome": get("first_name"), "Cognome": get("last_name"),
+      "Data di nascita": get("birth_date"), "Email": get("email"), "Telefono": get("phone"),
+      "Dati per il gestionale": "TWDATA:" + btoa(bin) + ":END",
+    };
+    // risposte alle domande in più anche in chiaro nell'email
+    form.querySelectorAll("[data-extra-label]").forEach(l => { body[l.dataset.extraLabel] = l.querySelector("input, select").value; });
+    button.disabled = true;
+    button.textContent = "Invio in corso…";
+    try {
+      const r = await fetch(form.dataset.endpoint, {method: "POST", body: JSON.stringify(body),
+        headers: {"Content-Type": "application/json", "Accept": "application/json"}});
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || String(j.success) === "false") throw new Error(j.message || `errore ${r.status}`);
+      try { sessionStorage.setItem("tw_name", get("first_name")); } catch (x) {}
+      location.href = "grazie.html";
+    } catch (x) {
+      err.textContent = `Invio non riuscito (${x.message}). Riprova tra qualche minuto o iscriviti in reception.`;
+      err.hidden = false;
+      button.disabled = false;
+      button.textContent = "Iscriviti alla gara";
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
